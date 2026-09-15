@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta name="robots" content="noindex,nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>moto-moto — мотоцикли зі США під ключ</title>
+<meta name="description" content="Привозимо мотоцикли з аукціонів і дилерів США: Ducati, Harley-Davidson, BMW, Yamaha, Suzuki, Honda, Kawasaki та електро. Викуп, логістика, розмитнення — 45–60 днів.">
+<meta name="theme-color" content="#070706">
+<meta property="og:title" content="moto-moto — мотоцикли зі США під ключ">
+<meta property="og:description" content="Одинадцять марок. Викуп на аукціоні, море, митниця, ключі.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23070706'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-style='italic' font-size='20' fill='%238FA35C' text-anchor='middle'%3Em%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+
+<a class="skip-link" href="#catalog">Перейти до каталогу</a>
+
+<!-- ─────────────────────────────────────────────────────────────── nav -->
+<header class="nav" id="nav">
+  <a class="brandmark" href="#top">moto<i>-</i>moto</a>
+
+  <nav class="nav__links" aria-label="Головне меню">
+    <a href="#catalog">Каталог</a>
+    <a href="#process">Як ми веземо</a>
+    <a href="#about">Про нас</a>
+    <a href="#contact">Контакти</a>
+  </nav>
+
+  <div class="nav__right">
+    <a class="nav__cart" href="admin.html" style="border-color:transparent;color:var(--faint)">Адмінка</a>
+    <button class="nav__cart" data-open-cart aria-label="Відкрити кошик">
+      <span class="lbl">Кошик</span> <b data-cart-count>0</b>
+    </button>
+    <button class="nav__burger" id="burger" aria-label="Меню">
+      <svg width="17" height="11" viewBox="0 0 17 11" fill="none" aria-hidden="true"><path d="M0 1h17M0 5.5h17M0 10h17" stroke="currentColor" stroke-width="1.4"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ─────────────────────────────────────── сцена: відео + скрол -->
+<section class="stage" id="stage" aria-label="Вступ">
+  <div class="stage__track" id="stageTrack" style="height:360svh">
+    <div class="stage__sticky">
+
+      <video class="stage__video" id="heroVideo" muted playsinline preload="auto" aria-hidden="true" tabindex="-1">
+        <source src="assets/video/hero.mp4" type="video/mp4">
+      </video>
+      <div class="stage__poster"></div>
+      <div class="stage__scrim"></div>
+      <div class="stage__grain" aria-hidden="true"></div>
+
+      <!-- 00 — герой -->
+      <div class="stage__layer" data-from="0" data-to="0.16">
+        <div>
+          <span class="hero__kicker">Сіетл · Лос-Анджелес · Одеса</span>
+          <h1 class="display d-xl hero__title">Від торгів у США<br><i class="italic avo">до вашого гаража.</i></h1>
+          <p class="hero__sub">Викуповуємо мотоцикли на аукціонах і в дилерів США, веземо морем і віддаємо вам з номерами. Одинадцять марок, від Panigale до електричного LiveWire.</p>
+          <div class="hero__cta">
+            <a class="btn btn--solid" href="#catalog"><span>Дивитись каталог</span></a>
+            <a class="btn btn--ghost" href="#process"><span>Як це працює</span></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- біти історії -->
+      <div class="stage__layer" data-from="0.20" data-to="0.45">
+        <div class="beat">
+          <span class="beat__n">01</span>
+          <h2 class="beat__t display d-lg">Знаходимо там</h2>
+          <p class="beat__x">Copart, IAAI і дилерські майданчики від Флориди до Вашингтона. Ви кажете модель — ми показуємо реальні лоти з фото, пробігом і звітом Carfax.</p>
+        </div>
+      </div>
+
+      <div class="stage__layer" data-from="0.48" data-to="0.72">
+        <div class="beat">
+          <span class="beat__n">02</span>
+          <h2 class="beat__t display d-lg">Веземо сюди</h2>
+          <p class="beat__x">Наземна доставка до порту, консолідація в контейнер, океан. Ви бачите трек-номер контейнера і фото завантаження.</p>
+        </div>
+      </div>
+
+      <div class="stage__layer" data-from="0.75" data-to="1.01">
+        <div class="beat">
+          <span class="beat__n">03</span>
+          <h2 class="beat__t display d-lg">Віддаємо ключі</h2>
+          <p class="beat__x">Розмитнення, сертифікація, облік. Середній строк від торгів до вашого гаража — 45–60 днів.</p>
+        </div>
+      </div>
+
+      <div class="stage__progress" aria-hidden="true">
+        <div class="track"><div class="fill" id="stageFill"></div></div>
+        <span class="val" id="stageVal">00</span>
+      </div>
+
+      <div class="cue" id="cue" aria-hidden="true">
+        <span class="cue__bar"></span>
+        Гортайте
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────────────────────────────────────────── бренди -->
+<section class="brands" aria-label="Марки, які ми веземо">
+  <div class="wrap brands__inner">
+    <div class="brands__head">
+      <div>
+        <div class="marker" style="margin-bottom:0">Марки <span>у роботі</span></div>
+      </div>
+      <span class="brands__count"><span id="brandCount">11</span> марок</span>
+    </div>
+    <div class="marquee" id="brandStrip"></div>
+  </div>
+</section>
+
+<!-- ───────────────────────────────────────────────────── каталог -->
+<section class="pad" id="catalog">
+  <div class="wrap">
+
+    <div class="cat__head rv">
+      <div>
+        <div class="marker">Каталог <span>у наявності та в дорозі</span></div>
+        <h2 class="display d-lg">Десять мотоциклів,<br><i class="italic avo">уже викуплених</i></h2>
+      </div>
+      <p class="lede">Ціна фінальна: інвойс аукціону, логістика, митниця й оформлення вже всередині. Немає потрібної моделі — привеземо під замовлення за 45 днів.</p>
+    </div>
+
+    <div class="filters rv">
+      <span class="filters__label">Марка</span>
+      <div id="brandFilters" style="display:flex;flex-wrap:wrap;gap:8px"></div>
+      <span class="filters__spacer"></span>
+      <span class="filters__label">Тип</span>
+      <button class="chip is-on" data-type="all">Усі</button>
+      <button class="chip" data-type="ice">ДВЗ</button>
+      <button class="chip" data-type="electric">Електро</button>
+      <select class="sortsel" id="sort" aria-label="Сортування">
+        <option value="featured">За добіркою</option>
+        <option value="price-desc">Дорожчі спершу</option>
+        <option value="price-asc">Дешевші спершу</option>
+        <option value="power">За силою</option>
+      </select>
+    </div>
+
+    <div class="grid" id="grid"></div>
+
+    <p style="margin-top:22px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)">
+      Показано <span id="catCount">10</span> позицій
+    </p>
+
+  </div>
+</section>
+
+<!-- ───────────────────────────────────────────────────── процес -->
+<section class="pad" id="process" style="background:var(--ink)">
+  <div class="wrap">
+    <div class="cat__head rv">
+      <div>
+        <div class="marker">Процес <span>від торгів до ключів</span></div>
+        <h2 class="display d-lg">Шість кроків.<br><i class="italic avo">Без сюрпризів.</i></h2>
+      </div>
+      <p class="lede">Кожен етап ви бачите: фото, документи, інвойси. Ми не додаємо прихованих відсотків після оплати.</p>
+    </div>
+
+    <div class="plist" id="processList"></div>
+  </div>
+</section>
+
+<!-- ───────────────────────────────────────────────────── про нас -->
+<section class="pad" id="about">
+  <div class="wrap split">
+    <div class="rv">
+      <div class="marker">Про нас <span>з 2019 року</span></div>
+      <h2 class="display d-md">Ми не магазин.<br>Ми <i class="italic avo">логістика</i>.</h2>
+      <p class="lede" style="margin-top:22px">
+        У США мотоцикл коштує дешевше, ніж тут — навіть після моря й митниці. Ми закриваємо всю дорогу між аукціоном у Джорджії та вашим гаражем і показуємо кожен документ у процесі.
+      </p>
+      <div class="stats">
+        <div class="stat"><div class="stat__v">340+</div><div class="stat__k">привезено мотоциклів</div></div>
+        <div class="stat"><div class="stat__v">45</div><div class="stat__k">днів у середньому</div></div>
+        <div class="stat"><div class="stat__v">11</div><div class="stat__k">марок у роботі</div></div>
+        <div class="stat"><div class="stat__v">0</div><div class="stat__k">прихованих платежів</div></div>
+      </div>
+    </div>
+
+    <figure class="figure rv rv-d2" style="margin:0">
+      <img src="assets/story/01.jpg" alt="Завантаження мотоциклів у контейнер" loading="lazy"
+           data-fb="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='1000'%3E%3Crect width='800' height='1000' fill='%23141410'/%3E%3Cpath d='M420 0 L560 0 L240 1000 L100 1000 Z' fill='%238FA35C' opacity='0.07'/%3E%3Ctext x='48' y='770' font-family='Helvetica,Arial' font-size='26' letter-spacing='10' fill='%23F4F2ED' fill-opacity='0.42'%3EPORT OF TACOMA%3C/text%3E%3Ctext x='48' y='812' font-family='Helvetica,Arial' font-size='17' letter-spacing='4' fill='%23F4F2ED' fill-opacity='0.2'%3EФОТО ГОТУЄТЬСЯ%3C/text%3E%3C/svg%3E">
+      <figcaption class="figure__cap">Порт Такома · завантаження контейнера</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ───────────────────────────────────────────────────── контакт -->
+<section class="pad" id="contact" style="background:var(--ink);border-top:1px solid var(--line)">
+  <div class="wrap" style="text-align:center">
+    <div class="marker rv" style="justify-content:center">Заявка <span>відповідаємо за 2 години</span></div>
+    <h2 class="display d-lg rv">Скажіть модель —<br><i class="italic avo">ми знайдемо її в США</i></h2>
+    <div class="hero__cta rv rv-d2" style="justify-content:center;margin-top:34px">
+      <a class="btn btn--solid" href="mailto:hello@moto-moto.ua"><span>hello@moto-moto.ua</span></a>
+      <a class="btn btn--ghost" href="tel:+380440000000"><span>+38 044 000 00 00</span></a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ───────────────────────────────────────────────────── підвал -->
+<footer class="foot" id="footer">
+  <div class="wrap">
+    <div class="foot__top">
+      <div class="foot__col">
+        <a class="brandmark" href="#top" style="display:inline-block;margin-bottom:14px">moto<i>-</i>moto</a>
+        <p style="max-width:30ch">Мотоцикли з аукціонів і дилерів США. Викуп, море, митниця, номери.</p>
+      </div>
+      <div class="foot__col">
+        <h4>Каталог</h4>
+        <a href="#catalog" data-type="all">Усі мотоцикли</a>
+        <a href="#catalog" data-type="ice">Бензинові</a>
+        <a href="#catalog" data-type="electric">Електричні</a>
+        <a href="#process">Привезти під замовлення</a>
+      </div>
+      <div class="foot__col">
+        <h4>Компанія</h4>
+        <a href="#process">Як ми веземо</a>
+        <a href="#about">Про нас</a>
+        <a href="admin.html">Адмінпанель</a>
+      </div>
+      <div class="foot__col">
+        <h4>Зв’язок</h4>
+        <a href="mailto:hello@moto-moto.ua">hello@moto-moto.ua</a>
+        <a href="tel:+380440000000">+38 044 000 00 00</a>
+        <p>Київ · Одеса · Такома</p>
+      </div>
+    </div>
+    <div class="foot__bar">
+      <span>© <span id="year">2026</span> moto-moto</span>
+      <span>Ціни в USD, фіксуються на день інвойсу</span>
+      <span>Фото каталогу — Wikimedia Commons, CC BY / CC BY-SA, автори вказані в картці кожного мотоцикла</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ─────────────────────────── плаваюча іконка кошика (правий низ) -->
+<button class="fab" id="fab" data-open-cart aria-label="Відкрити кошик">
+  <span class="fab__thumbwrap">
+    <span class="fab__thumb"><img id="fabImg" src="" alt=""></span>
+    <span class="fab__badge" id="fabCount">0</span>
+  </span>
+  <span class="fab__meta">
+    <span class="fab__k">У кошику</span>
+    <span class="fab__v" id="fabTotal">$0</span>
+  </span>
+</button>
+
+<div class="scrim" id="scrim"></div>
+
+<!-- ───────────────────────────────────────────────────── кошик -->
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Кошик">
+  <div class="drawer__head">
+    <h2 class="drawer__title">Кошик <span data-cart-count>0</span></h2>
+    <button class="iconbtn" data-close-drawer aria-label="Закрити кошик" data-autofocus>
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.5"/></svg>
+    </button>
+  </div>
+  <div class="drawer__body" id="drawerBody"></div>
+  <div class="drawer__foot">
+    <div class="total">
+      <span class="total__k">Разом</span>
+      <span class="total__v" id="drawerTotal">$0</span>
+    </div>
+    <button class="btn btn--solid btn--wide" id="checkoutBtn" disabled><span>Оформити заявку</span></button>
+    <p class="drawer__note" id="drawerNote">Оплата після узгодження умов. Передоплата — 30 %.</p>
+  </div>
+</aside>
+
+<!-- ─────────────────────────────────────────── картка мотоцикла -->
+<div class="modal" id="detailModal" role="dialog" aria-modal="true" aria-label="Мотоцикл">
+  <div class="modal__box" id="detailBox"></div>
+</div>
+
+<!-- ──────────────────────────── банер знижки (через 3 секунди) -->
+<div class="modal" id="promoModal" role="dialog" aria-modal="true" aria-labelledby="promoTitle">
+  <div class="modal__box promo__box">
+    <button class="promo__close" data-promo-dismiss aria-label="Закрити банер" data-autofocus>
+      <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.6"/></svg>
+      Закрити
+    </button>
+
+    <div class="promo__in" id="promoInner">
+      <span class="promo__badge">Перший візит</span>
+      <h2 class="display promo__big" id="promoTitle">−10<i>%</i></h2>
+      <p class="promo__x">Залиште пошту — надішлемо промокод на будь-який мотоцикл з каталогу і добірку свіжих лотів із США.</p>
+
+      <form class="form" id="promoForm" novalidate>
+        <label class="sr-only" for="promoEmail">Ваша електронна пошта</label>
+        <input id="promoEmail" type="email" name="email" placeholder="you@email.com" autocomplete="email" required>
+        <button class="btn btn--solid" type="submit"><span>Отримати −10 %</span></button>
+        <p class="form__err" id="promoErr" role="alert"></p>
+      </form>
+
+      <button class="promo__skip" data-promo-dismiss>Ні, дякую — просто подивлюсь каталог</button>
+    </div>
+  </div>
+</div>
+
+<!-- ───────────────────────────────────────────── мобільне меню -->
+<nav class="mnav" id="mnav" aria-label="Мобільне меню">
+  <button class="iconbtn mnav__close" id="mnavClose" aria-label="Закрити меню">
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.5"/></svg>
+  </button>
+  <a href="#catalog"><span>01</span>Каталог</a>
+  <a href="#process"><span>02</span>Як ми веземо</a>
+  <a href="#about"><span>03</span>Про нас</a>
+  <a href="#contact"><span>04</span>Контакти</a>
+  <a href="admin.html"><span>05</span>Адмінка</a>
+</nav>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+/* список процесу — рендер із даних */
+(function () {
+  var el = document.getElementById('processList');
+  if (!el || typeof PROCESS === 'undefined') return;
+  el.innerHTML = PROCESS.map(function (p) {
+    return '<div class="prow rv"><span class="prow__n">' + p.n + '</span>' +
+           '<span class="prow__t">' + p.title + '</span>' +
+           '<span class="prow__x">' + p.text + '</span></div>';
+  }).join('');
+})();
+</script>
+</body>
+</html>

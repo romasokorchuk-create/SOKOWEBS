@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta name="robots" content="noindex,nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Контакти та запис на сервіс — ТОРК, Київ</title>
+<meta name="description" content="Автосервіс ТОРК: вул. Промислова, 24, Київ. Пн–Сб 09:00 – 19:00, Нд 10:00 – 16:00. Телефон +38 067 123 45 67. Залиште заявку — передзвонимо протягом 15 хвилин.">
+<meta name="theme-color" content="#111111">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Автосервіс ТОРК">
+<meta property="og:title" content="Контакти та запис на сервіс — ТОРК, Київ">
+<meta property="og:description" content="Автосервіс ТОРК: вул. Промислова, 24, Київ. Пн–Сб 09:00 – 19:00, Нд 10:00 – 16:00. Телефон +38 067 123 45 67. Залиште заявку — передзвонимо протягом 15 хвилин.">
+<meta property="og:image" content="img/lift.jpg">
+<meta property="og:locale" content="uk_UA">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23111111'/%3E%3Crect x='11' y='11' width='10' height='10' rx='2' fill='%23C89211'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="page-inner">
+<a class="skip" href="#main">Перейти до вмісту</a>
+<header class="header">
+  <div class="container header__bar">
+    <a class="logo" href="index.html">
+      <span class="logo__mark"><i></i></span>
+      <span class="logo__name">ТОРК</span>
+      <span class="logo__sub">автосервіс</span>
+    </a>
+
+    <nav class="nav" id="nav" aria-label="Головне меню">
+        <a href="index.html">Головна</a>
+        <a href="poslugy.html">Послуги та ціни</a>
+        <a href="pro-nas.html">Про нас</a>
+        <a href="kontakty.html" aria-current="page">Контакти</a>
+        <a class="nav__mobile nav__tel" href="tel:+380671234567">+38 067 123 45 67</a>
+        <a class="nav__mobile btn btn--primary" href="kontakty.html#zapys">Записатись</a>
+    </nav>
+
+    <div class="header__side">
+      <a class="header__tel" href="tel:+380671234567">+38 067 123 45 67</a>
+      <a class="btn btn--primary btn--sm" href="kontakty.html#zapys">Записатись</a>
+      <button class="burger" type="button" aria-expanded="false" aria-controls="nav" aria-label="Відкрити меню"><span></span></button>
+    </div>
+  </div>
+</header>
+
+<main class="main" id="main">
+
+  <section class="section section--hero">
+    <div class="container container--mid split split--top">
+      <div>
+        <h1 class="display h1--sm">Контакти</h1>
+        <div class="contact-list">
+          <div>
+            <div class="eyebrow">Телефон</div>
+            <a class="contact-list__val contact-list__val--big" href="tel:+380671234567">+38 067 123 45 67</a>
+          </div>
+          <div>
+            <div class="eyebrow">Адреса</div>
+            <p class="contact-list__val">вул. Промислова, 24<br>Київ</p>
+          </div>
+          <div>
+            <div class="eyebrow">Графік</div>
+            <p class="contact-list__val">Пн–Сб 09:00 – 19:00<br>Нд 10:00 – 16:00</p>
+          </div>
+          <div>
+            <div class="eyebrow">Пошта</div>
+            <a class="contact-list__val" href="mailto:service@tork.ua">service@tork.ua</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-card" id="zapys">
+        <h2 class="h3">Запис на сервіс</h2>
+        <p class="lead" style="margin-top:8px; font-size:15px;">Залиште заявку — передзвонимо протягом 15 хвилин у робочий час.</p>
+
+        <form class="form" id="booking" novalidate>
+          <div class="field">
+            <label for="name">Ім'я</label>
+            <input id="name" name="name" type="text" autocomplete="name" placeholder="Андрій" required>
+            <p class="field__error" id="name-error"></p>
+          </div>
+          <div class="field">
+            <label for="phone">Телефон</label>
+            <input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="067 123 45 67" required>
+            <p class="field__error" id="phone-error"></p>
+          </div>
+          <div class="field">
+            <label for="car">Авто</label>
+            <input id="car" name="car" type="text" placeholder="Skoda Octavia, 2016" required>
+            <p class="field__error" id="car-error"></p>
+          </div>
+          <div class="field">
+            <label for="note">Що турбує в авто</label>
+            <textarea id="note" name="note" rows="3" placeholder="Стук спереду на нерівностях"></textarea>
+          </div>
+
+          <button class="btn btn--primary btn--block" type="submit">Надіслати заявку</button>
+          <p class="form__ok" role="status">Дякуємо, заявку прийнято. Ми передзвонимо.</p>
+          <p class="form__note">Демонстраційна форма: заявка нікуди не надсилається.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="section--tight">
+    <div class="container container--mid">
+      <div class="map">
+        <div class="map__frame">
+          <div class="map__fallback" aria-hidden="true"><strong>вул. Промислова, 24</strong><span>Київ</span></div>
+          <iframe src="https://www.google.com/maps?q=%D0%B2%D1%83%D0%BB.%20%D0%9F%D1%80%D0%BE%D0%BC%D0%B8%D1%81%D0%BB%D0%BE%D0%B2%D0%B0%2C%2024%2C%20%D0%9A%D0%B8%D1%97%D0%B2&hl=uk&z=14&output=embed" title="Карта проїзду: вул. Промислова, 24, Київ" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        </div>
+        <div class="map__bar">
+          <span>вул. Промислова, 24, Київ</span>
+          <a class="btn btn--ghost btn--sm" href="https://www.google.com/maps/dir/?api=1&destination=%D0%B2%D1%83%D0%BB.%20%D0%9F%D1%80%D0%BE%D0%BC%D0%B8%D1%81%D0%BB%D0%BE%D0%B2%D0%B0%2C%2024%2C%20%D0%9A%D0%B8%D1%97%D0%B2" target="_blank" rel="noopener">Прокласти маршрут</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<div class="mobile-cta">
+  <a class="btn btn--ghost btn--block" href="tel:+380671234567">Подзвонити</a>
+  <a class="btn btn--primary btn--block" href="kontakty.html#zapys">Записатись</a>
+</div></main>
+
+<footer class="footer">
+  <div class="container footer__top">
+    <div class="footer__about">
+      <div class="logo">
+        <span class="logo__mark"><i></i></span>
+        <span class="logo__name">ТОРК</span>
+      </div>
+      <p class="footer__text">Автосервіс повного циклу. Київ, вул. Промислова, 24.</p>
+    </div>
+    <div class="footer__col">
+      <div class="footer__head">Сторінки</div>
+      <a href="index.html">Головна</a>
+      <a href="poslugy.html">Послуги та ціни</a>
+      <a href="pro-nas.html">Про нас</a>
+      <a href="kontakty.html">Контакти</a>
+    </div>
+    <div class="footer__col">
+      <div class="footer__head">Зв'язок</div>
+      <a href="tel:+380671234567">+38 067 123 45 67</a>
+      <a href="mailto:service@tork.ua">service@tork.ua</a>
+      <span>Пн–Сб 09:00 – 19:00</span>
+    </div>
+  </div>
+  <div class="container footer__bottom">
+    <div class="footer__rule">© <span data-year>2026</span> Автосервіс ТОРК. Усі права захищено.</div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOKO — варіанти логотипа</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23000'/%3E%3Ctext x='50' y='73' font-family='Arial Black,Arial' font-size='68' font-weight='900' fill='%234ADE2E' text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#000; --surf:#0A0A0A; --surf2:#111; --line:#232323; --line2:#343434;
+  --txt:#fff; --mute:#8C8C8C; --acid:#4ADE2E;
+  --f-disp:'Unbounded','Arial Black',Arial,sans-serif;
+  --f-body:'Inter',Arial,sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+  --e:cubic-bezier(.2,.7,.2,1);
+}
+body{background:var(--bg);color:var(--txt);font-family:var(--f-body);line-height:1.6;
+  padding:clamp(20px,5vw,64px);-webkit-font-smoothing:antialiased}
+.wrap{max-width:1240px;margin-inline:auto}
+.lbl{display:inline-flex;align-items:center;gap:9px;font-family:var(--f-mono);font-size:.68rem;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--acid);margin-bottom:16px}
+.lbl::before{content:'';width:22px;height:1px;background:var(--acid)}
+h1{font-family:var(--f-disp);font-weight:900;font-size:clamp(1.9rem,5vw,3.4rem);
+  line-height:.98;letter-spacing:-.04em;text-transform:uppercase}
+.intro{color:var(--mute);max-width:60ch;margin-top:16px}
+.intro b{color:var(--txt);font-weight:600}
+
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);
+  border:1px solid var(--line);margin-top:clamp(32px,4vw,56px)}
+@media (max-width:820px){.grid{grid-template-columns:1fr}}
+
+.card{background:var(--bg);padding:clamp(24px,3vw,40px);display:flex;flex-direction:column;gap:22px}
+.card:hover{background:var(--surf2)}
+.card{transition:background .3s var(--e)}
+.card__h{display:flex;justify-content:space-between;align-items:baseline;gap:14px}
+.card__n{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.2em;color:var(--mute)}
+.card__t{font-family:var(--f-disp);font-weight:800;font-size:1rem;text-transform:uppercase;letter-spacing:-.02em}
+.card__d{color:var(--mute);font-size:.88rem}
+.stage{background:var(--surf);border:1px solid var(--line);min-height:132px;
+  display:grid;place-items:center;padding:26px;cursor:pointer;position:relative}
+.stage::after{content:'НАТИСНИ';position:absolute;right:10px;bottom:8px;font-family:var(--f-mono);
+  font-size:.55rem;letter-spacing:.18em;color:#2f2f2f}
+
+/* ───────── спільне для всіх варіантів ───────── */
+.lg{display:inline-flex;align-items:center;gap:11px;position:relative;text-decoration:none;color:var(--txt)}
+.lg b{font-family:var(--f-disp);font-weight:900;font-size:1.5rem;letter-spacing:.06em;line-height:1}
+.lg i{font-family:var(--f-mono);font-style:normal;font-size:.55rem;letter-spacing:.3em;color:var(--acid)}
+.lg b span{display:inline-block;will-change:transform}
+.lg.hit b span{animation:hit .52s var(--e) both}
+@keyframes hit{
+  0%{transform:none}
+  22%{transform:translateY(-7px) skewX(-9deg);color:var(--acid)}
+  48%{transform:translateY(3px) skewX(5deg);color:var(--acid)}
+  100%{transform:none}
+}
+
+/* 01 — поточний: слово + підпис під ним */
+.v1{flex-direction:column;align-items:flex-start;gap:5px}
+
+/* 02 — знак у квадраті */
+.v2 .mark{width:36px;height:36px;background:var(--acid);color:#000;display:grid;place-items:center;
+  font-family:var(--f-disp);font-weight:900;font-size:1.15rem;line-height:1;flex:none}
+.v2.hit .mark{animation:pop .52s var(--e)}
+@keyframes pop{0%{transform:none}30%{transform:rotate(-8deg) scale(1.12)}100%{transform:none}}
+
+/* 03 — у рамці */
+.v3{border:1px solid var(--acid);padding:9px 15px;gap:9px}
+.v3 i{color:var(--mute)}
+.v3.hit{animation:flash .52s var(--e)}
+@keyframes flash{0%,100%{background:transparent}35%{background:rgba(74,222,46,.14)}}
+
+/* 04 — з акцентною крапкою */
+.v4 .dot{width:9px;height:9px;background:var(--acid);flex:none;align-self:flex-end;margin-bottom:4px}
+.v4.hit .dot{animation:blink .52s steps(2,end) 3}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* 05 — розсічений акцентною рискою */
+.v5 .cut{width:1px;height:22px;background:var(--acid);flex:none}
+.v5 b{font-size:1.4rem}
+.v5.hit .cut{animation:grow .52s var(--e)}
+@keyframes grow{0%,100%{transform:scaleY(1)}40%{transform:scaleY(1.7)}}
+
+/* 06 — технічний, з індексом і лінією */
+.v6{flex-direction:column;align-items:flex-start;gap:7px}
+.v6 .row{display:flex;align-items:baseline;gap:10px}
+.v6 .idx{font-family:var(--f-mono);font-size:.55rem;letter-spacing:.2em;color:var(--acid)}
+.v6 .bar{width:100%;height:2px;background:var(--line2);position:relative;overflow:hidden}
+.v6 .bar::after{content:'';position:absolute;inset:0;width:34%;background:var(--acid)}
+.v6.hit .bar::after{animation:run .62s var(--e)}
+@keyframes run{0%{left:0}50%{left:66%}100%{left:0}}
+
+.foot{margin-top:clamp(28px,3.5vw,44px);border:1px solid var(--line);background:var(--surf);
+  padding:clamp(18px,2.4vw,28px);color:var(--mute);font-size:.9rem}
+.foot b{color:var(--acid);font-family:var(--f-mono);font-size:.8rem;letter-spacing:.1em}
+a.back{display:inline-flex;align-items:center;gap:9px;margin-top:26px;font-family:var(--f-mono);
+  font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--acid);text-decoration:none}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="lbl">ЛОГОТИП</span>
+  <h1>Шість варіантів</h1>
+  <p class="intro">Натисни на будь-який — побачиш його анімацію кліку. Скажи номер, і я поставлю його на сайт замість поточного. <b>Варіант 01 стоїть зараз.</b></p>
+
+  <div class="grid">
+
+    <article class="card">
+      <div class="card__h"><span class="card__t">Слово і підпис</span><span class="card__n">01 · ЗАРАЗ</span></div>
+      <div class="stage"><span class="lg v1" data-anim><b>SOKO</b><i>ВЕБ-СТУДІЯ</i></span></div>
+      <p class="card__d">Найтихіший. Літери підстрибують по черзі й спалахують акцентом, поверх пробігає зелена риска.</p>
+    </article>
+
+    <article class="card">
+      <div class="card__h"><span class="card__t">Знак у квадраті</span><span class="card__n">02</span></div>
+      <div class="stage"><span class="lg v2" data-anim><span class="mark">S</span><b>SOKO</b></span></div>
+      <p class="card__d">Квадрат працює окремо — як аватарка, фавікон чи іконка застосунку. При кліку хитається й збільшується.</p>
+    </article>
+
+    <article class="card">
+      <div class="card__h"><span class="card__t">У рамці</span><span class="card__n">03</span></div>
+      <div class="stage"><span class="lg v3" data-anim><b>SOKO</b><i>СТУДІЯ</i></span></div>
+      <p class="card__d">Рамка тримає логотип як штамп. Клік заливає її зеленим спалахом зсередини.</p>
+    </article>
+
+    <article class="card">
+      <div class="card__h"><span class="card__t">З крапкою</span><span class="card__n">04</span></div>
+      <div class="stage"><span class="lg v4" data-anim><b>SOKO</b><span class="dot"></span></span></div>
+      <p class="card__d">Мінімум елементів. Крапка блимає, як індикатор — натяк на «в мережі, на звʼязку».</p>
+    </article>
+
+    <article class="card">
+      <div class="card__h"><span class="card__t">Розсічений</span><span class="card__n">05</span></div>
+      <div class="stage"><span class="lg v5" data-anim><b>SO</b><span class="cut"></span><b>KO</b></span></div>
+      <p class="card__d">Риска ділить слово навпіл і витягується вгору при кліку. Найбільш графічний варіант.</p>
+    </article>
+
+    <article class="card">
+      <div class="card__h"><span class="card__t">Технічний</span><span class="card__n">06</span></div>
+      <div class="stage"><span class="lg v6" data-anim>
+        <span class="row"><b>SOKO</b><span class="idx">01</span></span>
+        <span class="bar"></span>
+      </span></div>
+      <p class="card__d">Схожий на індикатор завантаження. Смужка пробігає вправо й назад — перегукується зі шкалою прокрутки на сайті.</p>
+    </article>
+
+  </div>
+
+  <p class="foot">Усі шість зроблені кодом, без картинок — тому масштабуються без втрати якості й важать нуль. Анімація вимикається сама, якщо в системі увімкнено <b>зменшення руху</b>.</p>
+
+  <a class="back" href="index.html">← НА САЙТ</a>
+</div>
+
+<script>
+document.querySelectorAll('[data-anim]').forEach(l=>{
+  const b = l.querySelector('b');
+  if(b) b.innerHTML = [...b.textContent].map((c,i)=>
+    '<span style="animation-delay:'+(i*55)+'ms">'+c+'</span>').join('');
+  const play = ()=>{
+    l.classList.remove('hit');
+    void l.offsetWidth;              // перезапуск анімації на повторному кліку
+    l.classList.add('hit');
+    setTimeout(()=> l.classList.remove('hit'), 900);
+  };
+  l.closest('.stage').addEventListener('click', play);
+});
+</script>
+</body>
+</html>
