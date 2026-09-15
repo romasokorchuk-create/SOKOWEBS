@@ -1,0 +1,12 @@
+# Заголовки безпеки. Працюють на Netlify і Cloudflare Pages; GitHub Pages цей файл ігнорує
+# (там адмінку захищають CSP у meta-тезі та перевірка iframe у скрипті).
+/admin/*
+  Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src https://*.supabase.co wss://*.supabase.co https://api.pwnedpasswords.com; base-uri 'none'; form-action 'none'; object-src 'none'; frame-ancestors 'none'
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: no-referrer
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+  Cache-Control: no-store
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin

@@ -658,6 +658,7 @@ section[id],main[id]{scroll-margin-top:88px}
   .vw__demo{grid-column:2;grid-row:2}
 }
 
+.hp{position:absolute;left:-10000px;width:1px;height:1px;opacity:0;pointer-events:none}
 /* ---------- адаптив ---------- */
 @media (max-width:1140px){
   .opts{grid-template-columns:repeat(2,1fr)}
@@ -713,6 +714,7 @@ section[id],main[id]{scroll-margin-top:88px}
   .sect--terms{padding-block:16px 30px}
 }
 </style>
+<script src="config.js"></script>
 </head>
 <body>
 
@@ -816,7 +818,7 @@ section[id],main[id]{scroll-margin-top:88px}
           <div><h2 class="rv">Останні<br>проєкти</h2></div>
           <p class="rv">Це не скріншоти — усередині макетів працюють справжні сайти.</p>
         </div>
-      <!-- WORKS:START — цей блок повністю переписує admin.html, руками краще не чіпати -->
+      <!-- WORKS:START — статичний запасний варіант; живе портфоліо приходить з адмінки (Supabase) -->
       <div class="works rv">
       <article class="work" style="--pb:#FFFFFF;--pc:#3E9E77">
         <a class="dev" href="demo/marque/index.html" target="_blank" rel="noopener" aria-label="Відкрити сайт MARQUE">
@@ -1268,6 +1270,8 @@ section[id],main[id]{scroll-margin-top:88px}
 
     <div class="modal__c">
       <form class="form" id="form" novalidate>
+        <!-- пастка для ботів: людина цього поля не бачить і не заповнює -->
+        <input class="hp" type="text" id="f-website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
         <div class="sum" id="sum">
           <div><span class="mono">ОРІЄНТОВНА ВАРТІСТЬ</span><div class="sum__v" id="sumName" data-notr>Ще не визначено</div></div>
           <div class="sum__p" id="sumPrice" data-notr>від $350</div>
@@ -1364,6 +1368,18 @@ const CONFIG = {
   'use strict';
   const $  = (s,c)=> (c||document).querySelector(s);
   const $$ = (s,c)=> Array.from((c||document).querySelectorAll(s));
+/* ── Supabase: заявки в базу, ціни й портфоліо з адмінки ──────────────
+   Ключ у config.js публічний за призначенням; дані захищає RLS у базі.
+   Без налаштувань сайт працює як раніше — на статичних значеннях. */
+const SB = (()=>{
+  const c = window.SOKO_CONFIG || {};
+  const url = String(c.supabaseUrl || '').trim().replace(/\/+$/, ''), key = String(c.supabaseAnonKey || '').trim();
+  const on = /^https:\/\/[a-z0-9-]+\.supabase\.co$/.test(url) && !!key && !/^sb_secret_/i.test(key);
+  const headers = { apikey: key, 'Content-Type': 'application/json' };
+  if(on && !/^sb_/.test(key)) headers.Authorization = 'Bearer ' + key;   // старий anon-ключ — це JWT
+  return { on, url, headers };
+})();
+let SUPPORT = null, WORKS_DB = false, restackWorks = null;
   const money  = n => '$' + n.toLocaleString('uk-UA').replace(/ /g,' ');
   const plural = n => (PLURAL[LANG] || PLURAL.ua)(n);
   const slow   = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1670,16 +1686,19 @@ document.addEventListener('click', e=>{
     const a = card && $('a.dev', card), m = a && (a.getAttribute('href') || '').match(/demo\/([^/]+)\//);
     return m ? m[1] : '';
   }
-  $$('.work').forEach(card=>{
-    const slug = slugOf(card);
-    if(!slug) return;
-    [['.lap .scr', 'dp'], ['.ph .scr', 'mp']].forEach(([sel, kind])=>{
-      const sc = $(sel, card), url = 'works/' + slug + '-' + kind + '.jpg', im = new Image();
-      if(!sc) return;
-      im.onload = ()=>{ sc.style.setProperty('--poster', 'url("' + url + '")'); sc.classList.add('has-poster'); };
-      im.src = url;
+  function paintPosters(){
+    $$('.work').forEach(card=>{
+      const slug = slugOf(card);
+      if(!slug) return;
+      [['.lap .scr', 'dp'], ['.ph .scr', 'mp']].forEach(([sel, kind])=>{
+        const sc = $(sel, card), url = 'works/' + slug + '-' + kind + '.jpg', im = new Image();
+        if(!sc) return;
+        im.onload = ()=>{ sc.style.setProperty('--poster', 'url("' + url + '")'); sc.classList.add('has-poster'); };
+        im.src = url;
+      });
     });
-  });
+  }
+  paintPosters();
 
   function loadShots(card){
     if(!card) return;
@@ -1953,6 +1972,7 @@ document.addEventListener('click', e=>{
     ['Як до тебе звертатись','What should I call you','Jak się do ciebie zwracać'],
     ['Що за бізнес, що продаєш, чи є сайт зараз і що не влаштовує','What the business is, what you sell, whether you have a site now and what’s wrong with it','Jaki to biznes, co sprzedajesz, czy masz teraz stronę i co ci w niej nie pasuje'],
     ['Мова сайту','Site language','Język strony'],
+    ['Забагато заявок підряд. Спробуй за 10 хвилин або напиши:','Too many requests in a row. Try again in 10 minutes or write to:','Zbyt wiele zgłoszeń z rzędu. Spróbuj za 10 minut lub napisz:'],
     ['SHOPIFY-ТЕМА · ЕЛІТНІ АВТО','SHOPIFY THEME · LUXURY CARS','MOTYW SHOPIFY · AUTA PREMIUM'],
     ['БІЗНЕС-САЙТ · АВТОСТУДІЯ','BUSINESS SITE · CAR STUDIO','STRONA FIRMOWA · STUDIO AUT'],
     ['БІЗНЕС-САЙТ · РЕМОНТ, НЬЮ-ЙОРК','BUSINESS SITE · RENOVATION, NEW YORK','STRONA FIRMOWA · REMONTY, NOWY JORK'],
@@ -2213,7 +2233,7 @@ applyTier();
      й відпливає вгору, друга піднімається знизу й проявляється.     */
   const stack = $('#wstack');
   if(stack){
-    const cards = $$('.work', stack), pin = $('.wstack__pin', stack);
+    let cards = $$('.work', stack); const pin = $('.wstack__pin', stack);
     if(slow || cards.length < 2){
       stack.classList.add('flat');                    // простий список: без анімацій і без живих сайтів
     } else {
@@ -2265,6 +2285,12 @@ applyTier();
       addEventListener('resize', ()=>{ measure(); paint(); });
       addEventListener('load', ()=>{ measure(); paint(); });
       measure(); paint();
+      restackWorks = ()=>{          // портфоліо прийшло з бази — перераховуємо картки
+        cards = $$('.work', stack); warmed = -1;
+        stack.style.setProperty('--n', cards.length);
+        stack.style.setProperty('--step', (cards.length > 5 ? 58 : 72) + 'svh');
+        measure(); paint();
+      };
       if(document.fonts) document.fonts.ready.then(()=>{ measure(); paint(); });   // шрифти міняють висоту картки
     }
   }
@@ -2323,13 +2349,14 @@ applyTier();
     vwTabs.forEach(t=> t.addEventListener('click', ()=> vwShow(t.dataset.v)));
     vwX.addEventListener('click', vwClose);
     vwBody.addEventListener('click', e=>{ if(e.target === vwBody) vwClose(); });   // клік по полю навколо сторінки
-    $$('.work a.dev').forEach(a=> a.addEventListener('click', e=>{
+    $('.works').addEventListener('click', e=>{
+      const a = e.target.closest('a.dev'); if(!a) return;
       const card = a.closest('.work');
-      // Cmd/Ctrl/Shift-клік і картки без slug лишаємо звичайним посиланням на демо
+      // Cmd/Ctrl/Shift-клік і картки без slug лишаємо звичайним посиланням
       if(e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0 || !slugOf(card)) return;
       e.preventDefault();
       vwOpen(card);
-    }));
+    });
   }
 
   $$('#opts input').forEach(i=> i.addEventListener('change', refresh));
@@ -2341,7 +2368,7 @@ applyTier();
   const typeSel = $('#f-type'), budgetSel = $('#f-budget');
   const mtitle = $('#mtitle'), msub = $('#msub'), btn = $('#submit');
   let lastFocus = null, mAddons = [], discount = false;
-  const DISCOUNT = 50;    // −$50 за дозвіл показати сайт у портфоліо
+  let DISCOUNT = 50;    // −$50 за дозвіл показати сайт у портфоліо
 
   /* ── жива сума в анкеті ────────────────────────────────
      База береться з «Тип проєкту», зверху лягають доповнення,
@@ -2350,7 +2377,7 @@ applyTier();
   const TYPE_PRICE = { START:350, PRO:690, MAX:1290, '?':0 };
   const TYPE_SHORT = { START:'START', PRO:'PRO', MAX:'MAX', '?':'Ще не визначено' };
   const BUDGETS = [ ['b1',0,400], ['b2',400,800], ['b3',800,1500], ['b4',1500,Infinity], ['b0',0,Infinity] ];
-  const MIN_PRICE = 350;
+  let MIN_PRICE = 350;
   let sumShown = 0;
 
   function animSum(to){
@@ -2491,6 +2518,53 @@ applyTier();
     el.addEventListener('input', ()=>{ if(el.closest('.f').classList.contains('bad')) check(id); });
   });
 
+// заявка в базу, звідки її бачить лише адмінка
+async function saveLead(){
+  if(!SB.on) return false;
+  const final = mPrice() ? (discount ? Math.max(mPrice() - DISCOUNT, 0) : mPrice()) : null;
+  let res;
+  try{
+    res = await fetch(SB.url + '/rest/v1/rpc/submit_lead', { method:'POST', headers: SB.headers, body: JSON.stringify({
+      p_name: $('#f-name').value.trim(), p_phone: $('#f-phone').value.trim(),
+      p_email: $('#f-email').value.trim().toLowerCase(), p_message: $('#f-brief').value.trim(),
+      p_type: typeSel.value, p_budget: budgetSel.value,
+      p_addons: mAddons.map(x=> x.name).join(', ').slice(0, 400) || null,
+      p_estimate: final, p_discount: !!discount, p_lang: LANG,
+      p_website: ($('#f-website') || {}).value || ''
+    })});
+  }catch(err){ return false; }                 // база недоступна — заявка піде листом
+  if(res.ok) return true;
+  const j = await res.json().catch(()=> ({}));
+  if(/too_many_requests/.test(j.message || '')) throw new Error('rate');
+  return false;
+}
+
+  // лист на пошту — сповіщення про заявку
+  async function sendMail(data){
+    if(CONFIG.web3formsKey){
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method:'POST',
+        headers:{'Content-Type':'application/json', Accept:'application/json'},
+        body: JSON.stringify(Object.assign({ access_key:CONFIG.web3formsKey, subject:'Нова заявка з сайту SOKO', from_name:'SOKO' }, data))
+      });
+      if(!res.ok) throw new Error('send failed');
+    } else if(CONFIG.formTo){
+      const res = await fetch('https://formsubmit.co/ajax/' + encodeURIComponent(CONFIG.formTo), {
+        method:'POST',
+        headers:{'Content-Type':'application/json', Accept:'application/json'},
+        body: JSON.stringify(Object.assign({
+          _subject: 'Нова заявка з сайту SOKO',
+          _template: 'table',
+          _captcha: 'false'
+        }, data))
+      });
+      if(!res.ok) throw new Error('send failed');
+    } else {
+      await new Promise(r=> setTimeout(r, 900));
+      console.info('[SOKO] Демо-режим. Заявка:', data);
+    }
+  }
+
   form.addEventListener('submit', async e=>{
     e.preventDefault();
     const bad = Object.keys(rules).filter(id=> !check(id));
@@ -2512,40 +2586,80 @@ applyTier();
     };
 
     try{
-      if(CONFIG.web3formsKey){
-        const res = await fetch('https://api.web3forms.com/submit', {
-          method:'POST',
-          headers:{'Content-Type':'application/json', Accept:'application/json'},
-          body: JSON.stringify(Object.assign({ access_key:CONFIG.web3formsKey, subject:'Нова заявка з сайту SOKO', from_name:'SOKO' }, data))
-        });
-        if(!res.ok) throw new Error('send failed');
-      } else if(CONFIG.formTo){
-        const res = await fetch('https://formsubmit.co/ajax/' + encodeURIComponent(CONFIG.formTo), {
-          method:'POST',
-          headers:{'Content-Type':'application/json', Accept:'application/json'},
-          body: JSON.stringify(Object.assign({
-            _subject: 'Нова заявка з сайту SOKO',
-            _template: 'table',
-            _captcha: 'false'
-          }, data))
-        });
-        if(!res.ok) throw new Error('send failed');
-      } else {
-        await new Promise(r=> setTimeout(r, 900));
-        console.info('[SOKO] Демо-режим. Заявка:', data);
-      }
+      const stored = await saveLead();
+      try{ await sendMail(data); }
+      catch(mailErr){ if(!stored) throw mailErr; }   // лист — лише сповіщення: заявка вже в базі
       form.classList.add('off');
       done.classList.add('on');
       modal.scrollTop = 0;
       $('#done .btn').focus();
     } catch(err){
-      alert(tr('Не вдалося надіслати. Напиши напряму:') + ' ' + CONFIG.phone);
+      alert(err && err.message === 'rate'
+        ? tr('Забагато заявок підряд. Спробуй за 10 хвилин або напиши:') + ' ' + CONFIG.email
+        : tr('Не вдалося надіслати. Напиши напряму:') + ' ' + CONFIG.phone);
     } finally {
       btn.classList.remove('busy');
       $('.t', btn).textContent = tr('НАДІСЛАТИ ЗАЯВКУ');
       form.reset();
     }
   });
+/* ── ціни й портфоліо з адмінки ─────────────────────────────────────
+   Статичні значення в розмітці — запасний варіант. Дані з бази ще раз
+   перевіряємо тут (посилання, кольори) і виводимо лише екранованими. */
+const esc = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const SUP_SUFFIX = { ua:'МІС', en:'MO', pl:'MC' };
+function paintSupport(){
+  const b = $('.sup b'); if(!b || !SUPPORT) return;
+  b.setAttribute('data-notr', '');
+  b.textContent = '$' + SUPPORT[0] + '–' + SUPPORT[1] + ' / ' + (SUP_SUFFIX[LANG] || SUP_SUFFIX.ua);
+}
+function paintWorkCats(){
+  $$('.works .mono[data-ua]').forEach(m=>{ m.textContent = m.dataset[LANG] || m.dataset.ua; });
+}
+function applyPricing(p){
+  if(!p || !p.tiers) return;
+  const num = v => Number.isFinite(+v) && +v >= 0 ? Math.round(+v) : null;
+  $$('.tier').forEach(t=>{
+    const v = num(p.tiers[t.dataset.name]); if(v == null) return;
+    t.dataset.base = v; TYPE_PRICE[t.dataset.name] = v;
+    const el = $('.tier__p', t); if(el && el.firstChild) el.firstChild.nodeValue = money(v) + ' ';
+  });
+  MIN_PRICE = Math.min(TYPE_PRICE.START, TYPE_PRICE.PRO, TYPE_PRICE.MAX);
+  $$('#opts .opt').forEach(o=>{ const v = num(p.addons && p.addons[o.dataset.key]); if(v != null) $('input', o).value = v; });
+  const d = num(p.discount);
+  if(d != null){ DISCOUNT = d; const f = $('.fab__off'); if(f) f.textContent = '−' + money(d); }
+  if(Array.isArray(p.support) && num(p.support[0]) != null && num(p.support[1]) != null){ SUPPORT = [num(p.support[0]), num(p.support[1])]; paintSupport(); }
+  const cur = $('.tier[aria-checked="true"]'); if(cur) base = +cur.dataset.base;
+  applyTier(); refresh();
+}
+function renderWorks(rows){
+  const box = $('.works');
+  const okHref = h => /^(demo\/[a-z0-9-]{1,40}\/index\.html|https:\/\/[^\s"<>']{4,300})$/.test(h || '');
+  const okColor = c => /^#[0-9a-f]{6}$/i.test(c || '');
+  const list = (Array.isArray(rows) ? rows : []).filter(w => w && w.name && okHref(w.href) && okColor(w.bg) && okColor(w.accent));
+  if(!box || !list.length) return;
+  box.innerHTML = list.map(w=>{
+    const n = esc(w.name), href = esc(w.href), live = !/^https:/.test(w.href);
+    const frame = (kind, wd, ht) => live ? '<iframe data-src="' + href + '" title="' + n + ' — ' + kind + '" scrolling="no" tabindex="-1" aria-hidden="true" loading="lazy"></iframe>' : '';
+    return '<article class="work" style="--pb:' + w.bg + ';--pc:' + w.accent + '">'
+      + '<a class="dev" href="' + href + '" target="_blank" rel="noopener" aria-label="' + esc(tr('Відкрити сайт')) + ' ' + n + '">'
+      + '<div class="lap"><div class="scr" style="--w:1440;--h:900"><span class="scr__wm">' + n + '</span>' + frame('десктопна версія') + '</div><span class="lap__foot"></span></div>'
+      + '<div class="ph"><div class="scr" style="--w:390;--h:844"><span class="scr__wm"></span>' + frame('мобільна версія') + '</div></div>'
+      + '</a><div class="work__b"><span class="mono" data-notr data-ua="' + esc(w.cat_ua) + '" data-en="' + esc(w.cat_en) + '" data-pl="' + esc(w.cat_pl) + '">'
+      + esc(w['cat_' + LANG] || w.cat_ua) + '</span><h3>' + n + '</h3></div></article>';
+  }).join('');
+  WORKS_DB = true;
+  paintPosters(); fitDevices();
+  if(restackWorks) restackWorks();
+}
+if(SB.on){
+  const get = path => fetch(SB.url + '/rest/v1/' + path, { headers: SB.headers }).then(r => r.ok ? r.json() : Promise.reject(r.status));
+  get('settings?select=value&key=eq.pricing').then(r => { if(r && r[0]) applyPricing(r[0].value); }).catch(()=>{});
+  get('works?select=slug,name,cat_ua,cat_en,cat_pl,bg,accent,href&order=sort.asc').then(renderWorks).catch(()=>{});
+}
+// перемикання мови: тексти, які прийшли з бази, словник не знає
+$$('.lang button').forEach(b=> b.addEventListener('click', ()=> setTimeout(()=>{ if(SUPPORT) paintSupport(); if(WORKS_DB) paintWorkCats(); }, 0)));
+
 })();
 </script>
 </body>

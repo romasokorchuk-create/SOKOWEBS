@@ -1,0 +1,51 @@
+:root{--bg:#000;--card:#0d0d0d;--line:#262626;--line2:#3a3a3a;--txt:#f2f2f2;--mute:#8c8c8c;--acid:#4ADE2E;--err:#ff6b5b}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+code{font-family:ui-monospace,Menlo,monospace;font-size:.85em;background:#161616;padding:2px 6px;word-break:break-all}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px clamp(14px,3vw,32px);border-bottom:1px solid var(--line)}
+.logo{font-weight:900;letter-spacing:.02em}.logo i{font-style:normal;color:var(--acid);font-size:.7em;margin-left:8px;letter-spacing:.2em}
+.top__r{display:flex;align-items:center;gap:12px;color:var(--mute);font-size:.85rem;min-width:0}
+.auth{max-width:420px;margin:8vh auto;padding:0 18px}
+.auth h1{font-size:1.6rem;margin:0 0 12px}
+form{display:grid;gap:12px}
+label{display:grid;gap:5px}
+label span{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+input,select,textarea{width:100%;background:#0a0a0a;color:var(--txt);border:1px solid var(--line2);padding:11px 12px;font:inherit;border-radius:0}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--acid);outline-offset:-1px}
+input[type=color]{padding:3px;height:44px}
+input[type=checkbox]{width:auto}
+.btn{background:var(--acid);color:#000;border:1px solid var(--acid);padding:11px 16px;font:inherit;font-weight:700;cursor:pointer}
+.btn:disabled{opacity:.5;cursor:wait}
+.btn.ghost{background:transparent;color:var(--txt);border-color:var(--line2)}
+.btn.danger{background:transparent;color:var(--err);border-color:#5a2520}
+.link{background:none;border:0;color:var(--mute);text-decoration:underline;cursor:pointer;justify-self:start;font:inherit;padding:0}
+.hint,.muted{color:var(--mute);font-size:.85rem}
+.msg{min-height:1.2em;margin:0;font-size:.9rem}
+.msg[data-kind=err]{color:var(--err)}.msg[data-kind=ok]{color:var(--acid)}
+.banner{padding:12px clamp(14px,3vw,32px);border-bottom:1px solid #5a2520}
+.qr{display:block;width:200px;height:200px;background:#fff;padding:8px;margin:12px 0}
+.tabs{display:flex;border-bottom:1px solid var(--line);overflow-x:auto;padding:0 clamp(14px,3vw,32px)}
+.tabs button{background:none;border:0;border-bottom:2px solid transparent;color:var(--mute);padding:14px 16px;font:inherit;cursor:pointer;white-space:nowrap}
+.tabs button[aria-selected=true]{color:var(--txt);border-bottom-color:var(--acid)}
+.panel{padding:18px clamp(14px,3vw,32px) 60px;max-width:1100px}
+.bar{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-bottom:16px}
+.bar select{width:auto}
+.list{display:grid;gap:12px}
+.card{background:var(--card);border:1px solid var(--line);padding:16px}
+.card h2{font-size:1rem;margin:8px 0 4px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.lead{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--acid);padding:14px 16px;display:grid;gap:8px}
+.lead[data-status=in_progress]{border-left-color:#e3b341}.lead[data-status=done]{border-left-color:#555}.lead[data-status=spam]{border-left-color:var(--err);opacity:.7}
+.lead header{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.lead time{color:var(--mute);font-size:.85rem}
+.lead a{color:var(--acid)}
+.lead dl{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;margin:0;font-size:.88rem}
+.lead dt{color:var(--mute)}.lead dd{margin:0;word-break:break-word}
+.brief{white-space:pre-wrap;word-break:break-word;margin:0;background:#0a0a0a;border:1px solid var(--line);padding:10px}
+.lead__act{display:grid;grid-template-columns:180px 1fr auto auto;gap:8px;align-items:start}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:10px}
+.vis{display:flex;align-items:center;gap:8px}
+#toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#111;border:1px solid var(--line2);padding:10px 16px;margin:0;z-index:10}
+#toast[data-kind=err]{border-color:var(--err);color:var(--err)}
+@media (max-width:700px){.lead__act{grid-template-columns:1fr}}

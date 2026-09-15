@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src https://*.supabase.co wss://*.supabase.co https://api.pwnedpasswords.com; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<title>SOKO · Адмінка</title>
+<link rel="icon" href="../assets/favicon.svg">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<header class="top"><b class="logo">SOKO<i>ADMIN</i></b><span class="top__r"><span id="who"></span><button type="button" id="logout" class="btn ghost" hidden>Вийти</button></span></header>
+
+<section id="v-setup" class="auth" hidden>
+  <h1>Адмінку ще не підключено</h1>
+  <p class="msg" id="setup-msg" data-kind="err">Заповни config.js у корені сайту: Project URL і anon / publishable key із Supabase. Покрокова інструкція — у НАЛАШТУВАННЯ.md.</p>
+</section>
+
+<section id="v-login" class="auth" hidden>
+  <h1>Вхід</h1>
+  <form id="f-login" novalidate>
+    <label><span>Пошта</span><input id="login-email" type="email" autocomplete="username" required></label>
+    <label><span>Пароль</span><input id="login-pass" type="password" autocomplete="current-password" required></label>
+    <button type="submit" class="btn">Увійти</button>
+    <button type="button" id="to-forgot" class="link">Забули пароль?</button>
+    <p class="msg" id="login-msg" role="alert"></p>
+  </form>
+</section>
+
+<section id="v-forgot" class="auth" hidden>
+  <h1>Зміна пароля</h1>
+  <p class="hint">Надішлемо лист з одноразовим посиланням. Далі — код 2FA і новий пароль.</p>
+  <form id="f-forgot" novalidate>
+    <label><span>Пошта</span><input id="forgot-email" type="email" autocomplete="username" required></label>
+    <button type="submit" class="btn">Надіслати лист</button>
+    <button type="button" id="to-login" class="link">Назад до входу</button>
+    <p class="msg" id="forgot-msg" role="alert"></p>
+  </form>
+</section>
+
+<section id="v-enroll" class="auth" hidden>
+  <h1>Увімкни 2FA</h1>
+  <p class="hint">Без неї адмінка не відкриється. Відскануй код у Google Authenticator, 1Password чи Authy і введи 6 цифр.</p>
+  <img id="enroll-qr" class="qr" alt="QR-код для додатка-автентифікатора">
+  <p class="hint">Або введи ключ вручну: <code id="enroll-secret"></code></p>
+  <form id="f-enroll" novalidate>
+    <label><span>Код із додатка</span><input id="enroll-code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" required></label>
+    <button type="submit" class="btn">Підтвердити</button>
+    <p class="msg" id="enroll-msg" role="alert"></p>
+  </form>
+</section>
+
+<section id="v-mfa" class="auth" hidden>
+  <h1>Код 2FA</h1>
+  <form id="f-mfa" novalidate>
+    <label><span>6 цифр із додатка</span><input id="mfa-code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" required></label>
+    <button type="submit" class="btn">Підтвердити</button>
+    <p class="msg" id="mfa-msg" role="alert"></p>
+  </form>
+</section>
+
+<section id="v-newpass" class="auth" hidden>
+  <h1>Новий пароль</h1>
+  <p class="hint">Щонайменше 12 символів, три з чотирьох: малі й великі літери, цифри, символи. Пароль звіряється з базою витоків — сам пароль при цьому нікуди не відправляється.</p>
+  <form id="f-newpass" novalidate>
+    <label><span>Новий пароль</span><input id="np-1" type="password" autocomplete="new-password" required></label>
+    <label><span>Ще раз</span><input id="np-2" type="password" autocomplete="new-password" required></label>
+    <button type="submit" class="btn">Зберегти пароль</button>
+    <p class="msg" id="np-msg" role="alert"></p>
+  </form>
+</section>
+
+<main id="v-app" hidden>
+  <p class="msg banner" id="not-admin" data-kind="err" hidden>Цей акаунт не має прав адміна — дані не показуються. Додай його в таблицю admins (див. НАЛАШТУВАННЯ.md).</p>
+  <nav class="tabs" role="tablist">
+    <button type="button" role="tab" data-tab="leads">Заявки</button>
+    <button type="button" role="tab" data-tab="works">Портфоліо</button>
+    <button type="button" role="tab" data-tab="prices">Ціни</button>
+    <button type="button" role="tab" data-tab="security">Безпека</button>
+  </nav>
+
+  <section class="panel" id="p-leads" hidden>
+    <div class="bar">
+      <select id="lead-filter" aria-label="Фільтр за статусом">
+        <option value="">Усі</option><option value="new">Нові</option><option value="in_progress">В роботі</option><option value="done">Готово</option><option value="spam">Спам</option>
+      </select>
+      <button type="button" id="lead-refresh" class="btn ghost">Оновити</button>
+      <span id="lead-count" class="muted"></span>
+    </div>
+    <div id="leads" class="list"></div>
+  </section>
+
+  <section class="panel" id="p-works" hidden>
+    <div class="bar">
+      <button type="button" id="work-add" class="btn">Додати проєкт</button>
+      <span class="muted">Для demo/slug/index.html тека з демо має лежати в репозиторії, інакше дай повне посилання https://…</span>
+    </div>
+    <div id="works" class="list"></div>
+  </section>
+
+  <section class="panel" id="p-prices" hidden>
+    <form id="f-prices" class="card" novalidate>
+      <h2>Пакети, $</h2>
+      <div class="grid">
+        <label><span>START</span><input name="t_START" type="number" min="0" max="100000" step="1" required></label>
+        <label><span>PRO</span><input name="t_PRO" type="number" min="0" max="100000" step="1" required></label>
+        <label><span>MAX</span><input name="t_MAX" type="number" min="0" max="100000" step="1" required></label>
+      </div>
+      <h2>Доповнення, $</h2>
+      <div class="grid">
+        <label><span>Блог / CMS</span><input name="a_cms" type="number" min="0" max="100000" step="1" required></label>
+        <label><span>Адмін-панель</span><input name="a_admin" type="number" min="0" max="100000" step="1" required></label>
+        <label><span>Онлайн-оплата</span><input name="a_pay" type="number" min="0" max="100000" step="1" required></label>
+        <label><span>Додаткова мова</span><input name="a_lang" type="number" min="0" max="100000" step="1" required></label>
+        <label><span>SEO-оптимізація</span><input name="a_seo" type="number" min="0" max="100000" step="1" required></label>
+        <label><span>Аналітика</span><input name="a_stats" type="number" min="0" max="100000" step="1" required></label>
+        <label><span>Telegram-бот</span><input name="a_bot" type="number" min="0" max="100000" step="1" required></label>
+        <label><span>Хостинг і запуск</span><input name="a_host" type="number" min="0" max="100000" step="1" required></label>
+      </div>
+      <h2>Інше, $</h2>
+      <div class="grid">
+        <label><span>Знижка за кейс</span><input name="discount" type="number" min="0" max="10000" step="1" required></label>
+        <label><span>Підтримка / міс — від</span><input name="sup_min" type="number" min="0" max="10000" step="1" required></label>
+        <label><span>Підтримка / міс — до</span><input name="sup_max" type="number" min="0" max="10000" step="1" required></label>
+      </div>
+      <button type="submit" class="btn">Зберегти ціни</button>
+      <p class="msg" id="prices-msg" role="alert"></p>
+    </form>
+  </section>
+
+  <section class="panel" id="p-security" hidden>
+    <div class="card">
+      <h2>Акаунт</h2>
+      <p>Пошта: <b id="sec-email"></b></p>
+      <p>2FA: <b id="sec-2fa"></b></p>
+      <div class="row">
+        <button type="button" id="sec-reset" class="btn">Надіслати лист для зміни пароля</button>
+        <button type="button" id="sec-global" class="btn ghost">Вийти на всіх пристроях</button>
+      </div>
+      <p class="hint">Сесія живе лише у відкритій вкладці й завершується після 20 хвилин без дій.</p>
+    </div>
+  </section>
+</main>
+
+<p id="toast" role="status" aria-live="polite" hidden></p>
+<script src="../config.js"></script>
+<script src="vendor/supabase.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

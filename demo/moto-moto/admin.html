@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Адмінпанель — moto-moto</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%238FA35C'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-style='italic' font-size='20' fill='%23070706' text-anchor='middle'%3Em%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body>
+
+<header class="abar">
+  <div>
+    <a class="brandmark" href="index.html">moto<i>-</i>moto</a>
+    <span class="abar__tag">Адмінка</span>
+  </div>
+  <div class="abar__act">
+    <a class="mini" href="index.html">← На сайт</a>
+    <button class="mini" id="exportBtn">Експорт JSON</button>
+    <button class="mini mini--danger" id="resetBtn">Скинути до типових</button>
+  </div>
+</header>
+
+<div class="acols">
+
+  <!-- ─────────────────────────────────────────── форма -->
+  <section class="apanel apanel--form">
+    <div class="ahead">
+      <h2 id="formTitle">Новий мотоцикл</h2>
+      <span id="formMode">додавання</span>
+    </div>
+
+    <form id="bikeForm" novalidate>
+      <div class="fields">
+
+        <div class="frow">
+          <div class="field">
+            <label for="f-brand">Марка</label>
+            <select id="f-brand" required></select>
+          </div>
+          <div class="field">
+            <label for="f-year">Рік</label>
+            <input id="f-year" type="number" min="1970" max="2030" step="1" placeholder="2024" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="f-model">Модель</label>
+          <input id="f-model" type="text" placeholder="Panigale V4 S" required>
+        </div>
+
+        <div class="frow">
+          <div class="field">
+            <label for="f-price">Ціна, USD</label>
+            <input id="f-price" type="number" min="0" step="100" placeholder="32000" required>
+          </div>
+          <div class="field">
+            <label for="f-type">Тип</label>
+            <select id="f-type">
+              <option value="ice">ДВЗ</option>
+              <option value="electric">Електро</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- сила — окреме поле, як у ТЗ -->
+        <div class="field field--power">
+          <label for="f-power"><b>Сила</b> — окреме поле</label>
+          <input id="f-power" type="number" min="1" max="400" step="1" placeholder="209" required>
+          <small>Кінські сили. Виводиться в каталозі окремим блоком специфікацій, не в описі.</small>
+        </div>
+
+        <div class="frow">
+          <div class="field" id="ccWrap">
+            <label for="f-cc">Об’єм, см³</label>
+            <input id="f-cc" type="number" min="0" step="1" placeholder="1103">
+          </div>
+          <div class="field">
+            <label for="f-cat">Клас</label>
+            <input id="f-cat" type="text" placeholder="Суперспорт" list="catList">
+            <datalist id="catList">
+              <option value="Суперспорт"></option><option value="Спорт-турер"></option>
+              <option value="Турер"></option><option value="Адвенчер"></option>
+              <option value="Нейкед"></option><option value="Круізер"></option>
+              <option value="Електро-нейкед"></option><option value="Електро-турер"></option>
+            </datalist>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="f-desc">Опис</label>
+          <textarea id="f-desc" placeholder="Одне-два речення по суті: що це за мотоцикл і чому його варто брати."></textarea>
+          <small>Коротко й конкретно. Технічні цифри йдуть у поля вище, не сюди.</small>
+        </div>
+
+        <div class="field">
+          <label>Фото</label>
+          <label class="drop" id="drop" for="f-file">
+            <input id="f-file" type="file" accept="image/*">
+            Перетягніть фото сюди або натисніть, щоб вибрати
+          </label>
+          <div class="prev" id="prev"><img id="prevImg" src="" alt=""></div>
+          <input id="f-photo" type="text" placeholder="assets/bikes/.../main.jpg" style="margin-top:10px">
+          <small>Або вкажіть шлях до файлу вручну. Завантажене фото стискається до 900 px і зберігається в браузері.</small>
+        </div>
+
+        <div class="factions">
+          <button class="btn btn--solid" type="submit" id="saveBtn"><span>Додати мотоцикл</span></button>
+          <button class="btn btn--ghost" type="button" id="cancelBtn" style="display:none"><span>Скасувати</span></button>
+        </div>
+
+      </div>
+    </form>
+  </section>
+
+  <!-- ─────────────────────────────────────────── список -->
+  <section class="apanel">
+    <div class="ahead">
+      <h2>Каталог</h2>
+      <span><span id="cnt">0</span> позицій</span>
+    </div>
+
+    <div class="note">
+      <b>Де зберігаються дані.</b> Зміни лежать у localStorage цього браузера — цього досить, щоб наповнити й показати каталог.
+      Щоб вони стали постійними для всіх відвідувачів, натисніть <b>Експорт JSON</b> і вставте результат у <b>assets/js/data.js</b> замість DEFAULT_BIKES.
+      Реального бекенда й пароля тут поки немає — перед публікацією сторінку треба закрити авторизацією.
+    </div>
+
+    <div class="astats">
+      <div class="astat"><div class="astat__v" id="sCount">0</div><div class="astat__k">мотоциклів</div></div>
+      <div class="astat"><div class="astat__v" id="sAvg">$0</div><div class="astat__k">середня ціна</div></div>
+      <div class="astat"><div class="astat__v" id="sPower">0</div><div class="astat__k">макс. сила, к.с.</div></div>
+      <div class="astat"><div class="astat__v" id="sEv">0</div><div class="astat__k">електро</div></div>
+    </div>
+
+    <div class="alist" id="list"></div>
+  </section>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- вікно експорту -->
+<div class="modal" id="exportModal" role="dialog" aria-modal="true" aria-label="Експорт каталогу">
+  <div class="modal__box" style="max-width:760px;padding:clamp(24px,3vw,36px)">
+    <div class="ahead">
+      <h2>Експорт каталогу</h2>
+      <span>вставте в data.js</span>
+    </div>
+    <textarea class="export" id="exportText" readonly></textarea>
+    <div class="factions" style="margin-top:16px">
+      <button class="btn btn--solid" id="copyBtn"><span>Скопіювати</span></button>
+      <button class="btn btn--ghost" data-close-export><span>Закрити</span></button>
+    </div>
+  </div>
+</div>
+<div class="scrim" id="scrim"></div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/admin.js"></script>
+</body>
+</html>
